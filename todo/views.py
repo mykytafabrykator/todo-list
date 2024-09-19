@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from todo.forms import TaskForm
-from todo.models import Task
+from todo.models import Task, Tag
 
 
 # Create your views here.
@@ -29,3 +29,9 @@ class TaskUpdateView(generic.UpdateView):
 class TaskDeleteView(generic.DeleteView):
     model = Task
     success_url = reverse_lazy("todo:task-list")
+
+
+class TagListView(generic.ListView):
+    model = Tag
+    queryset = Tag.objects.all()
+
