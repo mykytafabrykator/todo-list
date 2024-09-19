@@ -1,34 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>TODO list <a href="{% url 'todo:task-create' %}" class="btn btn-primary">Add Task</a></h1>
-
-    {% if task_list %}
-        {% for task in task_list %}
-            <div class="task-item">
-                <h3>
-                    {{ task.content }}
-                    {% if task.is_completed %}
-                        <span class="badge bg-success">Done</span>
-                    {% else %}
-                        <span class="badge bg-danger">Not done</span>
-                    {% endif %}
-                </h3>
-                <p>Created: {{ task.creation_datetime|date:"F j, Y, g:i a" }}</p>
-                {% if task.deadline %}
-                    <p>Deadline: {{ task.deadline|date:"F j, Y, g:i a" }}</p>
-                {% endif %}
-                <p>Tags:
-                    {% for tag in task.tags.all %}
-                        <span class="badge bg-secondary">{{ tag.name }}</span>
-                    {% endfor %}
-                </p>
-                <a href="{% url 'todo:task-update' task.id %}">Update</a> |
-                <a href="{% url 'todo:task-delete' task.id %}">Delete</a>
-            </div>
-            <hr>
-        {% endfor %}
-    {% else %}
-        <p>There are no tasks in the service.</p>
-    {% endif %}
+  <h1 class="mb-4">TODO list <a href="{% url 'todo:task-create' %}" class="btn btn-primary">Add Task</a></h1>
+  
+  {% if task_list %}
+      {% for task in task_list %}
+          <div class="task-item mb-4">
+              <h3>
+                  {{ task.content }}
+                  {% if task.is_completed %}
+                      <span class="badge bg-success">Done</span>
+                  {% else %}
+                      <span class="badge bg-danger">Not done</span>
+                  {% endif %}
+              </h3>
+              <p>Created: {{ task.creation_datetime|date:"F j, Y, g:i a" }}</p>
+              {% if task.deadline %}
+                  <p>Deadline: {{ task.deadline|date:"F j, Y, g:i a" }}</p>
+              {% endif %}
+              <p>Tags:
+                  {% for tag in task.tags.all %}
+                      <span class="badge bg-secondary">{{ tag.name }}</span>
+                  {% endfor %}
+              </p>
+              <div class="d-flex align-items-center">
+                  {% if task.is_completed %}
+                      <a href="{% url 'todo:task-toggle-status' task.id %}" class="btn btn-warning btn-sm">Undo</a>
+                  {% else %}
+                      <a href="{% url 'todo:task-toggle-status' task.id %}" class="btn btn-success btn-sm">Complete</a>
+                  {% endif %}
+                  <a href="{% url 'todo:task-update' task.id %}" class="btn btn-info btn-sm mx-2">Update</a>
+                  <a href="{% url 'todo:task-delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
+              </div>
+          </div>
+          <hr>
+      {% endfor %}
+  {% else %}
+      <p>There are no tasks in the service.</p>
+  {% endif %}
 {% endblock %}
