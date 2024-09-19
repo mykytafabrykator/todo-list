@@ -35,3 +35,8 @@ class TagListView(generic.ListView):
     model = Tag
     queryset = Tag.objects.all()
 
+
+class TagCreateView(generic.CreateView):
+    model = Tag
+    fields = ["name"]
+    success_url = reverse_lazy("todo:tag-list")
