@@ -20,7 +20,7 @@ class Task(models.Model):
     )
 
     class Meta:
-        ordering = ["is_completed", "datetime"]
+        ordering = ["is_completed"]
 
     def __str__(self):
         return f"{self.content} (deadline: {self.deadline})"
